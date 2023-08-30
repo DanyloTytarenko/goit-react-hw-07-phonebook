@@ -1,26 +1,26 @@
-import React from "react";
-import css from './Filter.module.css'
-import { useDispatch} from "react-redux";
-import { filterContact } from "redux/contactsSlice";
+import { filterContacts } from 'components/redux/phoneBookSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { InputFilter, LabelFilter } from './Filter.styled';
 
 const Filter = () => {
-  const dispatch = useDispatch()
-  const hendleFilter = (e) => {
-    dispatch(filterContact(e.currentTarget.value))
-  }
+  const filter = useSelector(state => state.phoneBook.filter);
 
-  
-  return (  
-    <div className={css.filter}>  
-      <label className={css.lable} htmlFor="filter">find contacts by name</label>
-      <input
-        name="filter"
+  const dispatch = useDispatch();
+
+  const filteredContacts = ({ target: { value } }) =>
+    dispatch(filterContacts(value));
+  return (
+    <LabelFilter>
+      Find contacts by name
+      <InputFilter
         type="text"
-        onChange={hendleFilter}
+        name="filter"
+        value={filter}
+        onChange={filteredContacts}
       />
-    </div>
+    </LabelFilter>
   );
 };
 
 export default Filter;
-
